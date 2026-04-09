@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - GPA Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <a href="{{ url_for('dashboard') }}" class="back-nav">
+        <i class="fas fa-chevron-left"></i>
+        <span>Back to Dashboard</span>
+    </a>
+
+    <div class="container" style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
+        <div class="card animate-up" style="width: 100%; max-width: 500px; margin-top: 0;">
+            <div class="result-box">
+                <div class="success-icon animate-up" style="animation-delay: 0.2s">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <h1 class="animate-up" style="animation-delay: 0.3s; font-size: 2rem;">Calculation Complete</h1>
+                <p class="subtitle animate-up" style="animation-delay: 0.4s">Your {{ type }} has been calculated and saved.</p>
+                
+                <div class="result-value animate-up" id="gpa-display" style="animation-delay: 0.5s">0.00</div>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;" class="animate-up" style="animation-delay: 0.7s">
+                    <a href="{{ url_for('sgpa' if type == 'SGPA' else 'cgpa') }}" class="btn">Calculate Another {{ type }}</a>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const display = document.getElementById('gpa-display');
+            const targetValue = parseFloat("{{ result }}");
+            const duration = 1500; // 1.5 seconds
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out cubic
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = easeOut * targetValue;
+                
+                display.textContent = currentValue.toFixed(2);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            // Start animation after a short delay
+            setTimeout(() => {
+                requestAnimationFrame(animate);
+            }, 600);
+        });
+    </script>
+</body>
+</html>

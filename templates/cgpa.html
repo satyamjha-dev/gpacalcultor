@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate CGPA - GPA Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="setup-step" class="card animate-up">
+            <a href="{{ url_for('index') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; display: inline-block;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <h1>CGPA Setup</h1>
+            <p class="subtitle">Enter the number of semesters completed.</p>
+
+            {% if error %}
+            <div class="error-msg">{{ error }}</div>
+            {% endif %}
+
+            <form id="cgpa-setup-form">
+                <div class="form-group">
+                    <label for="n_sem">Number of Semesters</label>
+                    <input type="number" id="n_sem" min="1" placeholder="e.g. 4" required>
+                </div>
+                <button type="submit" class="btn">Generate Fields</button>
+            </form>
+        </div>
+
+        <div id="calculation-step" class="card animate-up" style="display: none;">
+            <h1>Enter Semester Data</h1>
+            <p class="subtitle">Provide SGPA and total credits for each semester.</p>
+            
+            <form action="{{ url_for('cgpa') }}" method="POST">
+                <input type="hidden" name="n_sem" id="n_sem_final">
+                
+                <div id="dynamic-fields-cgpa" class="row-container">
+                    <!-- Fields will be generated here by script.js -->
+                </div>
+
+                <button type="submit" class="btn">Calculate CGPA</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.reload()">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

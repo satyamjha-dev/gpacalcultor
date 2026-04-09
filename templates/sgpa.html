@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate SGPA - GPA Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="setup-step" class="card animate-up">
+            <a href="{{ url_for('index') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; display: inline-block;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <h1>SGPA Setup</h1>
+            <p class="subtitle">Enter the number of subjects you have this semester.</p>
+
+            {% if error %}
+            <div class="error-msg">{{ error }}</div>
+            {% endif %}
+
+            <form id="sgpa-setup-form">
+                <div class="form-group">
+                    <label for="n_theory">Number of Theory Subjects</label>
+                    <input type="number" id="n_theory" min="0" placeholder="e.g. 5" required>
+                </div>
+                <div class="form-group">
+                    <label for="n_practical">Number of Practical Subjects</label>
+                    <input type="number" id="n_practical" min="0" placeholder="e.g. 2" required>
+                </div>
+                <button type="submit" class="btn">Generate Fields</button>
+            </form>
+        </div>
+
+        <div id="calculation-step" class="card animate-up" style="display: none;">
+            <h1>Enter Subject Data</h1>
+            <p class="subtitle">Provide marks and credits for each subject.</p>
+            
+            <form action="{{ url_for('sgpa') }}" method="POST">
+                <input type="hidden" name="n_theory" id="n_theory_final">
+                <input type="hidden" name="n_practical" id="n_practical_final">
+                
+                <div id="dynamic-fields" class="row-container">
+                    <!-- Fields will be generated here by script.js -->
+                </div>
+
+                <button type="submit" class="btn">Calculate SGPA</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.reload()">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
