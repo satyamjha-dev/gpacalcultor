@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <a href="{{ url_for('dashboard') }}" class="back-nav">
+    <a href="{{ url_for('index') }}" class="back-nav">
         <i class="fas fa-chevron-left"></i>
-        <span>Back to Dashboard</span>
+        <span>Back to Home</span>
     </a>
 
     <div class="container" style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
@@ -21,7 +21,7 @@
                 </div>
                 
                 <h1 class="animate-up" style="animation-delay: 0.3s; font-size: 2rem;">Calculation Complete</h1>
-                <p class="subtitle animate-up" style="animation-delay: 0.4s">Your {{ type }} has been calculated and saved.</p>
+                <p class="subtitle animate-up" style="animation-delay: 0.4s">Your {{ type }} has been calculated.</p>
                 
                 <div class="result-value animate-up" id="gpa-display" style="animation-delay: 0.5s">0.00</div>
                 
