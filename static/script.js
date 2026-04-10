@@ -19,8 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (nTheory > 0) {
                 const theoryHeader = document.createElement('h3');
                 theoryHeader.textContent = 'Theory Subjects';
-                theoryHeader.style.margin = '1.5rem 0 1rem 0';
+                theoryHeader.style.margin = '1.5rem 0 0.5rem 0';
                 container.appendChild(theoryHeader);
+
+                const theoryNote = document.createElement('p');
+                theoryNote.className = 'theory-note';
+                theoryNote.textContent = 'Note: Only enter subjects whose maximum marks are 100.';
+                container.appendChild(theoryNote);
 
                 for (let i = 1; i <= nTheory; i++) {
                     const row = createRow('th', i, 'Marks (0-100)', 100);
@@ -106,4 +111,54 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         return row;
     }
+
+    // 3D Tilt Effect for Cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return; // Disable on mobile
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+        });
+    });
+
+    // Magnetic Buttons
+    const btns = document.querySelectorAll('.btn');
+    btns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return;
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left) - rect.width / 2;
+            const y = (e.clientY - rect.top) - rect.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0px, 0px) scale(1)';
+        });
+    });
+
+    // Page Transition effect on link clicks
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link && link.href && !link.href.includes('#') && link.target !== '_blank' && !link.hasAttribute('download')) {
+            e.preventDefault();
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = link.href;
+            }, 400); // sync with animation timing
+        }
+    });
 });

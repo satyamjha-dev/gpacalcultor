@@ -52,6 +52,15 @@
 
                 if (progress < 1) {
                     requestAnimationFrame(animate);
+                } else {
+                    // Final popup glow effect - Cyberpunk Style
+                    display.style.transform = 'scale(1.25)';
+                    display.style.textShadow = '0 0 60px rgba(0, 240, 255, 1), 0 0 30px rgba(112, 0, 255, 0.8)';
+                    setTimeout(() => {
+                        display.style.transform = 'scale(1)';
+                        // Re-apply the CSS class default text shadow so it settles nicely
+                        display.style.textShadow = ''; 
+                    }, 500);
                 }
             }
 
