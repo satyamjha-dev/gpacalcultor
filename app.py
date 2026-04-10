@@ -6,7 +6,7 @@ from models import db, User, Result, Review
 import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'fallback-secret-key')
-db_url = os.environ.get("DATABASE_URL")
+db_url = os.environ.get("DATABASE_URL", "sqlite:///database.db")
 
 if db_url and db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
@@ -14,6 +14,7 @@ if db_url and db_url.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     "pool_pre_ping": True,
+    "pool_recycle": 300,
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
